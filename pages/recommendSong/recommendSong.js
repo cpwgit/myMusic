@@ -37,8 +37,18 @@ Page({
     })
 
     // 获取每日推荐数据
+    this.getRecommendList();
 
-
+  },
+  /**
+   * 跳转至songDetail页面
+   */
+  toSongDetail(event){
+    let song = event.currentTarget.dataset.song;
+    wx.navigateTo({
+      //url: '/pages/songDetail/songDetail?song=' + JSON.stringify(song)
+      url: '/pages/songDetail/songDetail?musicId=' + song.id
+    })
   },
 
   /**
