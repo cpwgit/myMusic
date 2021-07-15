@@ -1,5 +1,6 @@
 import request from "../../utils/request";
-Page({
+let isSend = false;  // 函数节流使用
+ Page({
 
   /**
    * 页面的初始数据
@@ -7,7 +8,8 @@ Page({
   data: {
     placeholderContent: '', // placeholder内容
     hotList: [], // 热搜榜数据
-
+    searchContent: '', //用户输入搜素数据
+    isSend: false
   },
 
   /**
@@ -31,6 +33,45 @@ Page({
   },
 
   /**
+   * 表单改变回调
+   */
+  handleInputChange(event){
+    this.setData({
+      searchContent: event.detail.value.trim() // 去空
+    })
+    if (isSend){
+      return;
+    }
+    isSend = true;
+
+    this.getSearchList();
+
+    // 函数节流
+    setTimeout(async ()=>{
+      isSend = false
+    },300)
+
+
+  },
+
+   /**
+    * 搜素请求函数
+    */
+   async getSearchList(){
+     if (!this.data.searchContent){
+       this.setData({
+         searchList: [],
+       })
+       return;
+     }
+     // 发送请求模糊匹配数据
+     let searchListData = await request('/search',{keywords: this.data.searchContent, limit: 10})
+     this.setData({
+       searchList: searchListData.result.songs
+     })
+   },
+
+   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
