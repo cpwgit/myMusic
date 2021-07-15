@@ -1,0 +1,12 @@
+{
+  "name": "mymusic",
+  "version": "1.0.0",
+  "bugs": {
+    "url": "https://github.com/cpwgit/myMusic/issues"
+  },
+  "homepage": "https://github.com/cpwgit/myMusic#readme",
+  "dependencies": {
+    "moment": "^2.29.1",
+    "pubsub-js": "^1.9.3"
+  }
+}

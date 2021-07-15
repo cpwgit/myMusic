@@ -58,14 +58,24 @@ Page({
      * 监听音乐自然播放结束
      */
     this.backgroundAudioManager.onEnded(()=> {
+      PubSub.subscribe('musicId', (msg, musicId) =>{
+        //console.log(musicId);
+        // 获取音乐详情
+        this.getMusicInfo(musicId);
+        // 自动播放当前音乐
+        this.musicControl(true, musicId);
+        // //取消订阅
+        PubSub.unsubscribe('musicId');
+      });
+
       // 自动切换下一首音乐，并且自动播放
       PubSub.publish('switchType', 'next');
       // 将实施进度条长度还原成0, 实时时间还原成0
       this.setData({
         currentWidth: 0,
         currentTime: '00:00',
-      })
-    })
+      });
+    });
     /**
      * 监听音乐实时播放进度
      */
